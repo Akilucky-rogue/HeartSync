@@ -12,6 +12,7 @@ import DashboardPage from "./pages/DashboardPage";
 import TimelinePage from "./pages/TimelinePage";
 import MoodPage from "./pages/MoodPage";
 import MessagesPage from "./pages/MessagesPage";
+import LoveQuestPage from "./pages/LoveQuestPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/timeline" element={<TimelinePage />} />
             <Route path="/mood" element={<MoodPage />} />
             <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/quests" element={<LoveQuestPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Calendar, Smile, MessageSquare } from 'lucide-react';
+import { Home, Calendar, Smile, MessageSquare, Gift } from 'lucide-react';
 
 export interface HeaderLink {
   name: string;
@@ -29,6 +29,11 @@ export const HeaderLinks: HeaderLink[] = [
     name: 'Messages',
     path: '/messages',
     icon: <MessageSquare className="w-4 h-4 md:mr-2" />
+  },
+  {
+    name: 'Love Quests',
+    path: '/quests',
+    icon: <Gift className="w-4 h-4 md:mr-2" />
   }
 ];
 
