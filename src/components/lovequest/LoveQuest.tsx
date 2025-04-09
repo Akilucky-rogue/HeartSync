@@ -5,8 +5,20 @@ import HeartButton from '@/components/ui/HeartButton';
 import { toast } from '@/hooks/use-toast';
 import CreateQuestDialog from './CreateQuestDialog';
 
+// Define Quest interface for better type safety
+interface Quest {
+  id: number;
+  title: string;
+  description: string;
+  reward: string;
+  status: "active" | "completed";
+  difficulty: "easy" | "medium" | "hard";
+  dueDate?: string;
+  completedDate?: string;
+}
+
 // Mock data - in a real app this would come from a database
-const questsData = [
+const questsData: Quest[] = [
   {
     id: 1,
     title: "Surprise Date Night",
@@ -37,7 +49,7 @@ const questsData = [
 ];
 
 const LoveQuest = () => {
-  const [quests, setQuests] = useState(questsData);
+  const [quests, setQuests] = useState<Quest[]>(questsData);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   
   const activeQuests = quests.filter(quest => quest.status === "active");
@@ -47,7 +59,11 @@ const LoveQuest = () => {
     setQuests(prev => 
       prev.map(quest => 
         quest.id === questId 
-          ? { ...quest, status: "completed", completedDate: new Date().toISOString().split('T')[0] } 
+          ? { 
+              ...quest, 
+              status: "completed" as const, 
+              completedDate: new Date().toISOString().split('T')[0] 
+            } 
           : quest
       )
     );
@@ -57,8 +73,8 @@ const LoveQuest = () => {
     });
   };
 
-  const handleCreateQuest = (newQuest: any) => {
-    const questWithId = {
+  const handleCreateQuest = (newQuest: Omit<Quest, 'id' | 'status' | 'completedDate'>) => {
+    const questWithId: Quest = {
       ...newQuest,
       id: quests.length + 1,
       status: "active",
@@ -120,10 +136,12 @@ const LoveQuest = () => {
                   
                   <p className="text-muted-foreground mb-4">{quest.description}</p>
                   
-                  <div className="flex items-center text-muted-foreground mb-4">
-                    <Clock className="w-4 h-4 mr-2" />
-                    <span className="text-sm">Due: {new Date(quest.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                  </div>
+                  {quest.dueDate && (
+                    <div className="flex items-center text-muted-foreground mb-4">
+                      <Clock className="w-4 h-4 mr-2" />
+                      <span className="text-sm">Due: {new Date(quest.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                    </div>
+                  )}
                   
                   <div className="flex items-center mb-6">
                     <Gift className="w-4 h-4 mr-2 text-heart" />
@@ -163,12 +181,14 @@ const LoveQuest = () => {
                   
                   <p className="text-muted-foreground mb-4">{quest.description}</p>
                   
-                  <div className="flex items-center text-muted-foreground mb-4">
-                    <CheckCircle className="w-4 h-4 mr-2 text-green-600" />
-                    <span className="text-sm">
-                      Completed: {new Date(quest.completedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </span>
-                  </div>
+                  {quest.completedDate && (
+                    <div className="flex items-center text-muted-foreground mb-4">
+                      <CheckCircle className="w-4 h-4 mr-2 text-green-600" />
+                      <span className="text-sm">
+                        Completed: {new Date(quest.completedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
+                    </div>
+                  )}
                   
                   <div className="flex items-center">
                     <Gift className="w-4 h-4 mr-2 text-heart" />

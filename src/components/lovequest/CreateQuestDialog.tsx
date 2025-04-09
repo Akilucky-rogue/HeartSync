@@ -15,7 +15,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 interface CreateQuestDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreateQuest: (quest: any) => void;
+  onCreateQuest: (quest: {
+    title: string;
+    description: string;
+    reward: string;
+    dueDate?: string;
+    difficulty: "easy" | "medium" | "hard";
+  }) => void;
 }
 
 const difficultyOptions = [
@@ -29,7 +35,7 @@ const CreateQuestDialog = ({ isOpen, onClose, onCreateQuest }: CreateQuestDialog
   const [description, setDescription] = useState('');
   const [reward, setReward] = useState('');
   const [dueDate, setDueDate] = useState<Date>();
-  const [difficulty, setDifficulty] = useState('easy');
+  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">('easy');
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,7 +138,7 @@ const CreateQuestDialog = ({ isOpen, onClose, onCreateQuest }: CreateQuestDialog
                   key={option.value}
                   type="button"
                   variant={difficulty === option.value ? "default" : "outline"}
-                  onClick={() => setDifficulty(option.value)}
+                  onClick={() => setDifficulty(option.value as "easy" | "medium" | "hard")}
                   className={cn(
                     "flex-1",
                     difficulty === option.value && 
