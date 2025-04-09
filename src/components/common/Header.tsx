@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, LogOut, User } from 'lucide-react';
+import { Heart, LogOut, User, Book } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 const Header = () => {
@@ -26,6 +26,12 @@ const Header = () => {
               </Link>
               <Link to="/mood" className="text-foreground/80 hover:text-heart transition-colors">
                 Mood Tracker
+              </Link>
+              <Link to="/love-language" className="text-foreground/80 hover:text-heart transition-colors">
+                <span className="flex items-center gap-1">
+                  <Book className="w-4 h-4" />
+                  Love Languages
+                </span>
               </Link>
             </>
           ) : (

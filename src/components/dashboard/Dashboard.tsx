@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Calendar, Clock, Heart, MessageCircle, Smile } from 'lucide-react';
+import { Calendar, Clock, Heart, MessageCircle, Smile, Book } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import QuoteDisplay from '@/components/common/Quote';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -42,9 +43,9 @@ const Dashboard = () => {
               <p className="text-lg font-medium">{relationshipStats.moodAverage}</p>
               <p className="text-sm text-muted-foreground mt-1">Track your daily emotions</p>
             </div>
-            <button className="w-full mt-2 py-2 px-4 border border-heart text-heart rounded-lg hover:bg-heart/5 transition-colors">
+            <Link to="/mood" className="block w-full mt-2 py-2 px-4 text-center border border-heart text-heart rounded-lg hover:bg-heart/5 transition-colors">
               Update Mood
-            </button>
+            </Link>
           </div>
           
           {/* Relationship Stats Card */}
@@ -103,22 +104,22 @@ const Dashboard = () => {
         
         {/* Quick Actions */}
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
+          <Link to="/messages" className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
             <MessageCircle className="w-8 h-8 text-heart mb-2" />
             <span>Message Partner</span>
-          </button>
-          <button className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
+          </Link>
+          <Link to="/quests" className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
             <Heart className="w-8 h-8 text-heart mb-2" />
-            <span>Send Love Note</span>
-          </button>
-          <button className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
+            <span>Love Quests</span>
+          </Link>
+          <Link to="/timeline" className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
             <Calendar className="w-8 h-8 text-heart mb-2" />
-            <span>Plan Date</span>
-          </button>
-          <button className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
-            <Smile className="w-8 h-8 text-heart mb-2" />
-            <span>Share Mood</span>
-          </button>
+            <span>Our Timeline</span>
+          </Link>
+          <Link to="/love-language" className="romance-card p-4 flex flex-col items-center text-center hover:bg-muted/20 transition-colors">
+            <Book className="w-8 h-8 text-heart mb-2" />
+            <span>Love Languages</span>
+          </Link>
         </div>
       </div>
     </div>
