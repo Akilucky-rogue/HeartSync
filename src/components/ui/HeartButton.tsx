@@ -10,6 +10,7 @@ interface HeartButtonProps {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'filled' | 'outline';
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 const HeartButton = ({
@@ -18,7 +19,8 @@ const HeartButton = ({
   className,
   size = 'md',
   variant = 'filled',
-  type = 'button'
+  type = 'button',
+  disabled = false
 }: HeartButtonProps) => {
   const sizeClasses = {
     sm: 'text-sm px-4 py-2',
@@ -35,10 +37,12 @@ const HeartButton = ({
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         'flex items-center justify-center gap-2 font-medium rounded-full transition-all duration-300 hover:shadow-lg',
         sizeClasses[size],
         variantClasses[variant],
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
     >

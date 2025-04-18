@@ -3,7 +3,7 @@ import React from 'react';
 import { LoveLanguage } from './LoveLanguageQuiz';
 import { Button } from '@/components/ui/button';
 
-interface QuestionOption {
+export interface QuestionOption {
   value: LoveLanguage;
   text: string;
 }

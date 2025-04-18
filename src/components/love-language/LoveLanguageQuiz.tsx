@@ -25,77 +25,77 @@ const quizQuestions = [
     id: 1,
     text: "I feel most loved when my partner...",
     options: [
-      { value: 'words', text: "Tells me they appreciate me" },
-      { value: 'service', text: "Does something helpful for me" },
-      { value: 'gifts', text: "Gives me a thoughtful gift" },
-      { value: 'time', text: "Spends quality time with me" },
-      { value: 'touch', text: "Gives me a hug or holds my hand" }
+      { value: 'words' as LoveLanguage, text: "Tells me they appreciate me" },
+      { value: 'service' as LoveLanguage, text: "Does something helpful for me" },
+      { value: 'gifts' as LoveLanguage, text: "Gives me a thoughtful gift" },
+      { value: 'time' as LoveLanguage, text: "Spends quality time with me" },
+      { value: 'touch' as LoveLanguage, text: "Gives me a hug or holds my hand" }
     ]
   },
   {
     id: 2,
     text: "I feel closest to my partner when we...",
     options: [
-      { value: 'time', text: "Have undivided attention for each other" },
-      { value: 'touch', text: "Share physical affection" },
-      { value: 'words', text: "Have deep, meaningful conversations" },
-      { value: 'service', text: "Complete tasks or projects together" },
-      { value: 'gifts', text: "Exchange presents or surprises" }
+      { value: 'time' as LoveLanguage, text: "Have undivided attention for each other" },
+      { value: 'touch' as LoveLanguage, text: "Share physical affection" },
+      { value: 'words' as LoveLanguage, text: "Have deep, meaningful conversations" },
+      { value: 'service' as LoveLanguage, text: "Complete tasks or projects together" },
+      { value: 'gifts' as LoveLanguage, text: "Exchange presents or surprises" }
     ]
   },
   {
     id: 3,
     text: "After a difficult day, I would most appreciate if my partner...",
     options: [
-      { value: 'service', text: "Took care of my responsibilities" },
-      { value: 'words', text: "Listened and offered words of encouragement" },
-      { value: 'touch', text: "Offered a massage or physical comfort" },
-      { value: 'gifts', text: "Surprised me with my favorite treat" },
-      { value: 'time', text: "Set aside time just for me" }
+      { value: 'service' as LoveLanguage, text: "Took care of my responsibilities" },
+      { value: 'words' as LoveLanguage, text: "Listened and offered words of encouragement" },
+      { value: 'touch' as LoveLanguage, text: "Offered a massage or physical comfort" },
+      { value: 'gifts' as LoveLanguage, text: "Surprised me with my favorite treat" },
+      { value: 'time' as LoveLanguage, text: "Set aside time just for me" }
     ]
   },
   {
     id: 4,
     text: "I know my partner cares when they...",
     options: [
-      { value: 'gifts', text: "Remember special occasions with gifts" },
-      { value: 'time', text: "Put away their phone to focus on me" },
-      { value: 'service', text: "Help me without being asked" },
-      { value: 'touch', text: "Show physical affection regularly" },
-      { value: 'words', text: "Express their feelings for me verbally" }
+      { value: 'gifts' as LoveLanguage, text: "Remember special occasions with gifts" },
+      { value: 'time' as LoveLanguage, text: "Put away their phone to focus on me" },
+      { value: 'service' as LoveLanguage, text: "Help me without being asked" },
+      { value: 'touch' as LoveLanguage, text: "Show physical affection regularly" },
+      { value: 'words' as LoveLanguage, text: "Express their feelings for me verbally" }
     ]
   },
   {
     id: 5,
     text: "I would rather my partner...",
     options: [
-      { value: 'touch', text: "Hold my hand in public" },
-      { value: 'gifts', text: "Surprise me with something I've been wanting" },
-      { value: 'words', text: "Send me sweet messages throughout the day" },
-      { value: 'time', text: "Plan a special outing just for us" },
-      { value: 'service', text: "Take care of a task I've been dreading" }
+      { value: 'touch' as LoveLanguage, text: "Hold my hand in public" },
+      { value: 'gifts' as LoveLanguage, text: "Surprise me with something I've been wanting" },
+      { value: 'words' as LoveLanguage, text: "Send me sweet messages throughout the day" },
+      { value: 'time' as LoveLanguage, text: "Plan a special outing just for us" },
+      { value: 'service' as LoveLanguage, text: "Take care of a task I've been dreading" }
     ]
   },
   {
     id: 6,
     text: "I feel most disconnected when my partner...",
     options: [
-      { value: 'time', text: "Is consistently too busy to spend time with me" },
-      { value: 'touch', text: "Doesn't show physical affection" },
-      { value: 'words', text: "Rarely compliments or affirms me" },
-      { value: 'service', text: "Doesn't help with shared responsibilities" },
-      { value: 'gifts', text: "Forgets important occasions" }
+      { value: 'time' as LoveLanguage, text: "Is consistently too busy to spend time with me" },
+      { value: 'touch' as LoveLanguage, text: "Doesn't show physical affection" },
+      { value: 'words' as LoveLanguage, text: "Rarely compliments or affirms me" },
+      { value: 'service' as LoveLanguage, text: "Doesn't help with shared responsibilities" },
+      { value: 'gifts' as LoveLanguage, text: "Forgets important occasions" }
     ]
   },
   {
     id: 7,
     text: "Which means more to you?",
     options: [
-      { value: 'words', text: "Hearing 'I love you' every day" },
-      { value: 'service', text: "Having your partner make dinner after a long day" },
-      { value: 'gifts', text: "Receiving a meaningful gift for no special reason" },
-      { value: 'time', text: "Having your partner's full attention during conversations" },
-      { value: 'touch', text: "Getting a spontaneous hug or kiss" }
+      { value: 'words' as LoveLanguage, text: "Hearing 'I love you' every day" },
+      { value: 'service' as LoveLanguage, text: "Having your partner make dinner after a long day" },
+      { value: 'gifts' as LoveLanguage, text: "Receiving a meaningful gift for no special reason" },
+      { value: 'time' as LoveLanguage, text: "Having your partner's full attention during conversations" },
+      { value: 'touch' as LoveLanguage, text: "Getting a spontaneous hug or kiss" }
     ]
   }
 ];
