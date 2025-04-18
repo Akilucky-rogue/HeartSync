@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,7 @@ import MessagesPage from "./pages/MessagesPage";
 import LoveQuestPage from "./pages/LoveQuestPage";
 import LoveLanguagePage from "./pages/LoveLanguagePage";
 import NotFound from "./pages/NotFound";
+import DateNightPage from "./pages/DateNightPage";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/messages" element={<MessagesPage />} />
             <Route path="/quests" element={<LoveQuestPage />} />
             <Route path="/love-language" element={<LoveLanguagePage />} />
+            <Route path="/date-night" element={<DateNightPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
