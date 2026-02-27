@@ -98,4 +98,3 @@ export function AnniversaryCountdown({ anniversaryDate, title, description }: An
     </Card>
   )
 }
-

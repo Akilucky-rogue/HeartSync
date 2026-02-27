@@ -236,4 +236,3 @@ function Search(props) {
     </svg>
   )
 }
-

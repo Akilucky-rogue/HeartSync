@@ -46,4 +46,3 @@ export function FeatureCard({ title, description, icon, href, color = "bg-pink-5
     </motion.div>
   )
 }
-

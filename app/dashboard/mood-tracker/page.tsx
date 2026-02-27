@@ -239,4 +239,3 @@ function getPartnerMoodColor(day: number) {
   if (day % 7 === 0) return colors[3] // Tired
   return colors[4] // Stressed
 }
-

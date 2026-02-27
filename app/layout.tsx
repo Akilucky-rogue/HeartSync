@@ -21,8 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+      <body className={`${inter.className} bg-background text-foreground`}>
+        <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
           <AppProvider>
             {children}
             <Toaster />
@@ -32,4 +32,3 @@ export default function RootLayout({
     </html>
   )
 }
-

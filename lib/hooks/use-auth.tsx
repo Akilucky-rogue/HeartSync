@@ -30,4 +30,3 @@ export function useAuth(requireAuth = true) {
     user: state.user,
   }
 }
-
