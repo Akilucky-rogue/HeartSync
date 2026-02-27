@@ -3,79 +3,62 @@
 import type React from "react"
 
 import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Heart } from "lucide-react"
+import { useAppContext } from "@/lib/context/app-context"
+import { useAuth } from "@/lib/hooks/use-auth"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/hooks/use-toast"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useToast } from "@/components/ui/use-toast"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { PageTransition } from "@/components/page-transition"
 
 export default function RegisterPage() {
-  const router = useRouter()
-  const { toast } = useToast()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    partnerEmail: "",
-    terms: false,
-  })
+  const { register } = useAppContext()
+  const { toast } = useToast()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData((prev) => ({ ...prev, terms: checked }))
-  }
+  // This will redirect if already logged in
+  useAuth(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (password !== confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        description: "Please make sure your passwords match",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsLoading(true)
 
     try {
-      // In a real app, this would be an API call to register
-      // For demo purposes, we'll just simulate a successful registration
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const success = await register(name, email, password)
 
-      // Check if required fields are filled
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-        throw new Error("Please fill in all required fields")
+      if (success) {
+        toast({
+          title: "Registration successful",
+          description: "Welcome to HeartSync!",
+        })
+      } else {
+        toast({
+          title: "Registration failed",
+          description: "An error occurred during registration",
+          variant: "destructive",
+        })
       }
-
-      // Check if terms are accepted
-      if (!formData.terms) {
-        throw new Error("You must accept the Terms of Service and Privacy Policy")
-      }
-
-      // For demo purposes, create a user account
-      localStorage.setItem("isLoggedIn", "true")
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          avatar: "/placeholder.svg?height=40&width=40",
-        }),
-      )
-
-      toast({
-        title: "Registration successful",
-        description: "Welcome to HeartSync! Your account has been created.",
-      })
-
-      // Redirect to dashboard
-      router.push("/dashboard")
     } catch (error) {
       toast({
         title: "Registration failed",
-        description: error instanceof Error ? error.message : "Please check your information and try again",
+        description: "An error occurred during registration",
         variant: "destructive",
       })
     } finally {
@@ -84,107 +67,89 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 p-4">
-      <Link href="/" className="absolute left-8 top-8 flex items-center gap-2 font-bold md:left-12 md:top-12">
-        <Heart className="h-6 w-6 text-rose-500" />
-        <span className="text-xl">HeartSync</span>
-      </Link>
-
-      <Card className="mx-auto max-w-md w-full">
-        <form onSubmit={handleSubmit}>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-            <CardDescription>Enter your information to create your account</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="first-name">First name</Label>
-                <Input
-                  id="first-name"
-                  name="firstName"
-                  placeholder="Jamie"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="last-name">Last name</Label>
-                <Input
-                  id="last-name"
-                  name="lastName"
-                  placeholder="Doe"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="your.email@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="partner-email">Partner's Email (Optional)</Label>
-              <Input
-                id="partner-email"
-                name="partnerEmail"
-                type="email"
-                placeholder="partner.email@example.com"
-                value={formData.partnerEmail}
-                onChange={handleChange}
-              />
-              <p className="text-xs text-muted-foreground">
-                We'll send an invitation to your partner to join your relationship space.
-              </p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" checked={formData.terms} onCheckedChange={handleCheckboxChange} required />
-              <Label htmlFor="terms" className="text-sm">
-                I agree to the{" "}
-                <Link href="/terms" className="text-rose-500 hover:underline">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="text-rose-500 hover:underline">
-                  Privacy Policy
+    <PageTransition>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <Card className="border-pink-200 dark:border-pink-900 shadow-lg">
+            <CardHeader className="space-y-1 text-center">
+              <CardTitle className="text-3xl font-bold tracking-tight text-pink-600 dark:text-pink-400">
+                Create an Account
+              </CardTitle>
+              <CardDescription>Join HeartSync and start your relationship journey</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full bg-pink-600 hover:bg-pink-700 text-white" disabled={isLoading}>
+                  {isLoading ? "Creating account..." : "Create account"}
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-4">
+              <div className="text-center text-sm">
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="font-medium text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300"
+                >
+                  Sign in
                 </Link>
-              </Label>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button className="w-full bg-rose-500 hover:bg-rose-600" type="submit" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </Button>
-            <div className="text-center text-sm">
-              Already have an account?{" "}
-              <Link href="/login" className="text-rose-500 hover:underline">
-                Sign in
-              </Link>
-            </div>
-          </CardFooter>
-        </form>
-      </Card>
-    </div>
+              </div>
+              <div className="text-center text-xs text-gray-500">
+                By creating an account, you agree to HeartSync's Terms of Service and Privacy Policy.
+              </div>
+            </CardFooter>
+          </Card>
+        </motion.div>
+      </div>
+    </PageTransition>
   )
 }
+

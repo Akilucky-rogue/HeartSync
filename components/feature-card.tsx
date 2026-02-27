@@ -1,48 +1,49 @@
+"use client"
+
+import type React from "react"
+
 import Link from "next/link"
-import type { LucideIcon } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
 
 interface FeatureCardProps {
   title: string
   description: string
-  icon: LucideIcon
+  icon: React.ReactNode
   href: string
-  buttonText: string
-  iconColor?: string
-  iconBgColor?: string
+  color?: string
 }
 
-export function FeatureCard({
-  title,
-  description,
-  icon: Icon,
-  href,
-  buttonText,
-  iconColor = "text-rose-500",
-  iconBgColor = "bg-rose-100",
-}: FeatureCardProps) {
+export function FeatureCard({ title, description, icon, href, color = "bg-pink-500" }: FeatureCardProps) {
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center gap-2">
-          <div className={`flex h-10 w-10 items-center justify-center rounded-full ${iconBgColor}`}>
-            <Icon className={`h-5 w-5 ${iconColor}`} />
+    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="h-full">
+      <Card className="h-full flex flex-col">
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full ${color.includes("bg-") ? color : `bg-${color}-100`}`}
+            >
+              {icon}
+            </div>
+            <div>
+              <CardTitle>{title}</CardTitle>
+            </div>
           </div>
-          <div>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="pb-2">
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </CardContent>
-      <CardFooter>
-        <Button variant="ghost" size="sm" className="w-full" asChild>
-          <Link href={href}>{buttonText}</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardHeader>
+        <CardContent className="flex-grow">
+          <p className="text-muted-foreground">{description}</p>
+        </CardContent>
+        <CardFooter>
+          <Button asChild variant="outline" className="w-full">
+            <Link href={href}>
+              <span>Explore {title}</span>
+              <span className="ml-2">→</span>
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </motion.div>
   )
 }
+
