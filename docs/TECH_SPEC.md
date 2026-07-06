@@ -20,9 +20,9 @@ beyond the pair. No ads, no trackers.
 | Layer | Technology | Version | Status |
 |---|---|---|---|
 | UI framework | Next.js (App Router) + React | 15.2 / 19 | ✅ |
-| Language | TypeScript (strict; build gates ON — see §7) | 5.x | ✅ (gates off) |
+| Language | TypeScript (strict; build gates ON — see §7) | 5.x | ✅ |
 | Styling | Tailwind CSS + shadcn/ui (Radix) | 3.4 | ✅ |
-| Toasts | sonner (replaces broken custom hook) | 1.7 | dep present |
+| Toasts | sonner (replaces broken custom hook) | 1.7 | ✅ |
 | Backend | Firebase — Auth + Firestore + Storage | JS SDK 11.x | to add |
 | Realtime | Firestore `onSnapshot` listeners | — | to add |
 | Offline | Firestore `persistentLocalCache` | — | to add |
@@ -149,7 +149,7 @@ scrub history if anything ever leaks.
 
 | Phase | Slice | Notes |
 |---|---|---|
-| 0 | **Cleanup** | Audit fixes: sonner toasts, header dedupe, dead routes, delete orphaned files, re-enable TS/ESLint gates, real Terms/Privacy pages |
+| 0 | **Cleanup** ✅ (commit 8c2eb63) | Audit fixes: sonner toasts, header dedupe, dead routes, delete orphaned files, re-enable TS/ESLint gates, real Terms/Privacy pages |
 | 1 | **Auth + pairing** | Firebase Auth, consent gate, invite flow, rewritten `AuthCheck`, profile page wired to real user |
 | 2 | **Events + moods** | Simplest CRUD; powers dashboard countdowns and mood history (replaces hardcoded March-2025 calendar with a `date-fns`-driven month grid) |
 | 3 | **Memories + photos** | Storage uploads with client-side compression, albums, timeline merge of memories/milestones |
