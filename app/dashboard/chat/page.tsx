@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Heart, Send, Image, Smile, Paperclip, ChevronLeft } from "lucide-react"
+import { Send, Image, Smile, Paperclip, ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
@@ -13,36 +13,7 @@ export const metadata: Metadata = {
 
 export default function ChatPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center">
-          <div className="flex items-center gap-2 font-bold">
-            <Heart className="h-6 w-6 text-rose-500" />
-            <span className="text-xl">HeartSync</span>
-          </div>
-          <nav className="ml-6 hidden md:flex gap-6">
-            <Link href="/dashboard" className="text-sm font-medium text-muted-foreground">
-              Dashboard
-            </Link>
-            <Link href="/dashboard/timeline" className="text-sm font-medium text-muted-foreground">
-              Timeline
-            </Link>
-            <Link href="/dashboard/chat" className="text-sm font-medium text-primary">
-              Chat
-            </Link>
-            <Link href="/dashboard/quests" className="text-sm font-medium text-muted-foreground">
-              Love Quests
-            </Link>
-          </nav>
-          <div className="ml-auto flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1 flex flex-col">
+    <div className="flex h-[calc(100vh-8.5rem)] flex-col overflow-hidden rounded-lg border bg-background">
         <div className="border-b bg-background p-4">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" asChild>
@@ -173,7 +144,6 @@ export default function ChatPage() {
             </Button>
           </div>
         </div>
-      </main>
     </div>
   )
 }

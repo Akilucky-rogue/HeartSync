@@ -11,11 +11,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 export default function RegisterPage() {
   const router = useRouter()
-  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
@@ -65,18 +64,15 @@ export default function RegisterPage() {
         }),
       )
 
-      toast({
-        title: "Registration successful",
+      toast.success("Registration successful", {
         description: "Welcome to HeartSync! Your account has been created.",
       })
 
       // Redirect to dashboard
       router.push("/dashboard")
     } catch (error) {
-      toast({
-        title: "Registration failed",
+      toast.error("Registration failed", {
         description: error instanceof Error ? error.message : "Please check your information and try again",
-        variant: "destructive",
       })
     } finally {
       setIsLoading(false)

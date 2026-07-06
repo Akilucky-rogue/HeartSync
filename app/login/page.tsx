@@ -10,11 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
@@ -51,18 +50,15 @@ export default function LoginPage() {
         }),
       )
 
-      toast({
-        title: "Login successful",
+      toast.success("Login successful", {
         description: "Welcome back to HeartSync!",
       })
 
       // Redirect to dashboard
       router.push("/dashboard")
     } catch (error) {
-      toast({
-        title: "Login failed",
+      toast.error("Login failed", {
         description: error instanceof Error ? error.message : "Please check your credentials and try again",
-        variant: "destructive",
       })
     } finally {
       setIsLoading(false)

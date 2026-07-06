@@ -8,13 +8,12 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 export function MobileNav() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { toast } = useToast()
 
   const handleLogout = () => {
     // Clear user data
@@ -23,8 +22,7 @@ export function MobileNav() {
 
     setOpen(false)
 
-    toast({
-      title: "Logged out",
+    toast.success("Logged out", {
       description: "You have been successfully logged out.",
     })
 
