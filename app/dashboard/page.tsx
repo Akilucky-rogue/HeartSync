@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import {
-  Heart,
   Calendar,
   MessageSquare,
   Image,
@@ -15,9 +14,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { FeatureCard } from "@/components/feature-card"
+import { DashboardGreeting } from "@/components/dashboard-greeting"
+import { PairBanner } from "@/components/pair-banner"
 
 export const metadata: Metadata = {
   title: "Dashboard | HeartSync",
@@ -27,18 +27,9 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Welcome back, Jamie</h1>
-          <p className="text-muted-foreground mt-1">
-            "Love is not about how many days, months, or years you have been together. Love is about how much you love
-            each other every single day."
-          </p>
-        </div>
-        <Badge variant="outline" className="bg-rose-50 text-rose-500 border-rose-200">
-          <Heart className="mr-1 h-3 w-3 fill-rose-500" /> 2 Years, 3 Months Together
-        </Badge>
-      </div>
+      <DashboardGreeting />
+
+      <PairBanner />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <Card>

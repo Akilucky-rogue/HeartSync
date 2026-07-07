@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Heart, Bell, Settings, LogOut } from "lucide-react"
@@ -16,31 +15,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/context/auth-context"
+import { signOutUser } from "@/services/auth"
 
 export function MainNav() {
   const pathname = usePathname()
   const router = useRouter()
-  const [user, setUser] = useState<{ name: string; email: string; avatar: string } | null>(null)
+  const { user, profile } = useAuth()
 
-  useEffect(() => {
-    // Get user data from localStorage
-    const userData = localStorage.getItem("user")
-    if (userData) {
-      setUser(JSON.parse(userData))
+  const displayName = profile?.displayName ?? user?.displayName ?? user?.email ?? "You"
+
+  const handleLogout = async () => {
+    try {
+      await signOutUser()
+      toast.success("Logged out", {
+        description: "You have been successfully logged out.",
+      })
+      router.push("/")
+    } catch {
+      toast.error("Couldn't log out", { description: "Please try again." })
     }
-  }, [])
-
-  const handleLogout = () => {
-    // Clear user data
-    localStorage.removeItem("isLoggedIn")
-    localStorage.removeItem("user")
-
-    toast.success("Logged out", {
-      description: "You have been successfully logged out.",
-    })
-
-    // Redirect to home page
-    router.push("/")
   }
 
   const navItems = [
@@ -94,13 +88,18 @@ export function MainNav() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar>
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={user.photoURL ?? "/placeholder.svg?height=40&width=40"} alt={displayName} />
+                  <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>
+                <div className="flex flex-col">
+                  <span>{displayName}</span>
+                  {user.email && <span className="text-xs font-normal text-muted-foreground">{user.email}</span>}
+                </div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/profile">Profile</Link>
