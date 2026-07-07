@@ -8,28 +8,25 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
+import { signOutUser } from "@/services/auth"
 
 export function MobileNav() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { toast } = useToast()
 
-  const handleLogout = () => {
-    // Clear user data
-    localStorage.removeItem("isLoggedIn")
-    localStorage.removeItem("user")
-
+  const handleLogout = async () => {
     setOpen(false)
-
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    })
-
-    // Redirect to home page
-    router.push("/")
+    try {
+      await signOutUser()
+      toast.success("Logged out", {
+        description: "You have been successfully logged out.",
+      })
+      router.push("/")
+    } catch {
+      toast.error("Couldn't log out", { description: "Please try again." })
+    }
   }
 
   const navItems = [

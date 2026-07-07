@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Heart } from "lucide-react"
@@ -10,11 +10,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
+import { useAuth } from "@/context/auth-context"
+import { friendlyAuthError, signInWithEmail } from "@/services/auth"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { toast } = useToast()
+  const { configured, user } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
@@ -26,44 +28,34 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  // Already signed in? Straight to the dashboard.
+  useEffect(() => {
+    if (user) router.replace("/dashboard")
+  }, [user, router])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!formData.email || !formData.password) {
+      toast.error("Login failed", { description: "Please enter both email and password" })
+      return
+    }
+    if (!configured) {
+      toast.error("Firebase isn't configured yet", {
+        description: "Add your Firebase web keys to .env.local — see docs/FIREBASE_SETUP.md",
+      })
+      return
+    }
+
     setIsLoading(true)
-
     try {
-      // In a real app, this would be an API call to authenticate
-      // For demo purposes, we'll just simulate a successful login
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Check if email and password are filled
-      if (!formData.email || !formData.password) {
-        throw new Error("Please enter both email and password")
-      }
-
-      // For demo purposes, accept any email/password
-      localStorage.setItem("isLoggedIn", "true")
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: "Jamie Doe",
-          email: formData.email,
-          avatar: "/placeholder.svg?height=40&width=40",
-        }),
-      )
-
-      toast({
-        title: "Login successful",
+      await signInWithEmail(formData.email, formData.password)
+      toast.success("Login successful", {
         description: "Welcome back to HeartSync!",
       })
-
-      // Redirect to dashboard
       router.push("/dashboard")
     } catch (error) {
-      toast({
-        title: "Login failed",
-        description: error instanceof Error ? error.message : "Please check your credentials and try again",
-        variant: "destructive",
-      })
+      toast.error("Login failed", { description: friendlyAuthError(error) })
     } finally {
       setIsLoading(false)
     }

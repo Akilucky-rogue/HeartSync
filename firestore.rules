@@ -1,0 +1,61 @@
+rules_version = '2';
+
+// HeartSync security rules — the privacy boundary of the whole product.
+// Model: users own their profile; a couple doc lists exactly two member UIDs;
+// all shared content lives in subcollections under the couple and is readable
+// and writable ONLY by those two members. See docs/TECH_SPEC.md §5.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // ── User profiles ────────────────────────────────────────────────────
+    // Strictly per-UID: nobody can read or write anyone else's profile.
+    match /users/{uid} {
+      allow read, create, update: if signedIn() && request.auth.uid == uid;
+      allow delete: if false;
+    }
+
+    // ── Invites ──────────────────────────────────────────────────────────
+    // The 6-char code (doc ID) is the shared secret. Created by the inviter;
+    // redeemed exactly once, by someone who isn't the inviter, flipping
+    // status pending -> accepted.
+    match /invites/{code} {
+      allow create: if signedIn()
+        && request.resource.data.fromUid == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow read: if signedIn();
+      allow update: if signedIn()
+        && resource.data.status == 'pending'
+        && request.resource.data.status == 'accepted'
+        && resource.data.fromUid != request.auth.uid
+        && request.resource.data.acceptedBy == request.auth.uid
+        && request.resource.data.fromUid == resource.data.fromUid;
+      allow delete: if signedIn() && resource.data.fromUid == request.auth.uid;
+    }
+
+    // ── Couples ──────────────────────────────────────────────────────────
+    // Exactly two members, set at creation and immutable afterwards.
+    match /couples/{coupleId} {
+      allow create: if signedIn()
+        && request.resource.data.members is list
+        && request.resource.data.members.size() == 2
+        && request.auth.uid in request.resource.data.members;
+      allow read: if signedIn() && request.auth.uid in resource.data.members;
+      allow update: if signedIn()
+        && request.auth.uid in resource.data.members
+        && request.resource.data.members == resource.data.members;
+      allow delete: if false;
+
+      // All shared content: messages, memories, albums, photos, moods,
+      // goals, quests, events, ...
+      match /{collection}/{docId} {
+        allow read, write: if signedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/couples/$(coupleId)).data.members;
+      }
+    }
+  }
+}

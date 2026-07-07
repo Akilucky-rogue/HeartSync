@@ -11,11 +11,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
+import { useAuth } from "@/context/auth-context"
+import { friendlyAuthError, registerWithEmail } from "@/services/auth"
 
 export default function RegisterPage() {
   const router = useRouter()
-  const { toast } = useToast()
+  const { configured } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
@@ -37,47 +39,40 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+      toast.error("Registration failed", { description: "Please fill in all required fields" })
+      return
+    }
+    if (!formData.terms) {
+      toast.error("Registration failed", {
+        description: "You must accept the Terms of Service and Privacy Policy",
+      })
+      return
+    }
+    if (!configured) {
+      toast.error("Firebase isn't configured yet", {
+        description: "Add your Firebase web keys to .env.local — see docs/FIREBASE_SETUP.md",
+      })
+      return
+    }
+
     setIsLoading(true)
-
     try {
-      // In a real app, this would be an API call to register
-      // For demo purposes, we'll just simulate a successful registration
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Check if required fields are filled
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-        throw new Error("Please fill in all required fields")
-      }
-
-      // Check if terms are accepted
-      if (!formData.terms) {
-        throw new Error("You must accept the Terms of Service and Privacy Policy")
-      }
-
-      // For demo purposes, create a user account
-      localStorage.setItem("isLoggedIn", "true")
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          avatar: "/placeholder.svg?height=40&width=40",
-        }),
-      )
-
-      toast({
-        title: "Registration successful",
-        description: "Welcome to HeartSync! Your account has been created.",
+      // Creates the auth user + users/{uid} profile doc with the consent record.
+      await registerWithEmail({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        partnerEmail: formData.partnerEmail,
       })
-
-      // Redirect to dashboard
-      router.push("/dashboard")
+      toast.success("Registration successful", {
+        description: "Welcome to HeartSync! Next: link up with your partner.",
+      })
+      router.push("/pair")
     } catch (error) {
-      toast({
-        title: "Registration failed",
-        description: error instanceof Error ? error.message : "Please check your information and try again",
-        variant: "destructive",
-      })
+      toast.error("Registration failed", { description: friendlyAuthError(error) })
     } finally {
       setIsLoading(false)
     }

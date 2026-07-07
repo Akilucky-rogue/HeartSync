@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, Camera, Edit, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ProfileIdentityCard } from "@/components/profile-identity-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -26,63 +26,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="md:col-span-1">
-          <CardContent className="p-6">
-            <div className="flex flex-col items-center">
-              <div className="relative mb-4">
-                <Avatar className="h-32 w-32">
-                  <AvatarImage src="/placeholder.svg?height=128&width=128" alt="User" />
-                  <AvatarFallback className="text-4xl">JD</AvatarFallback>
-                </Avatar>
-                <Button
-                  size="icon"
-                  className="absolute bottom-0 right-0 rounded-full bg-primary text-primary-foreground"
-                >
-                  <Camera className="h-4 w-4" />
-                </Button>
-              </div>
-              <h2 className="text-xl font-bold">Jamie Doe</h2>
-              <p className="text-sm text-muted-foreground">jamie.doe@example.com</p>
-              <Badge variant="outline" className="mt-2 bg-rose-50 text-rose-500 border-rose-200">
-                <Heart className="mr-1 h-3 w-3 fill-rose-500" /> 2 Years, 3 Months Together
-              </Badge>
-              <Button variant="outline" size="sm" className="mt-4" asChild>
-                <Link href="/dashboard/settings">
-                  <Edit className="mr-2 h-4 w-4" />
-                  Edit Profile
-                </Link>
-              </Button>
-            </div>
-
-            <Separator className="my-6" />
-
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium text-muted-foreground">Partner</h3>
-                <div className="flex items-center gap-3 mt-2">
-                  <Avatar>
-                    <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Partner" />
-                    <AvatarFallback>AL</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium">Alex Lee</p>
-                    <p className="text-xs text-muted-foreground">alex.lee@example.com</p>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-muted-foreground">Anniversary</h3>
-                <p className="mt-1">September 3, 2023</p>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-muted-foreground">Member Since</h3>
-                <p className="mt-1">June 15, 2023</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfileIdentityCard />
 
         <div className="md:col-span-2">
           <Tabs defaultValue="activity">

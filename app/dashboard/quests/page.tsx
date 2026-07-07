@@ -1,9 +1,7 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { Heart, ArrowRight, CheckCircle, Circle, Gift, Calendar, Map } from "lucide-react"
+import { ArrowRight, CheckCircle, Circle, Gift, Calendar, Map } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -15,37 +13,7 @@ export const metadata: Metadata = {
 
 export default function QuestsPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center">
-          <div className="flex items-center gap-2 font-bold">
-            <Heart className="h-6 w-6 text-rose-500" />
-            <span className="text-xl">HeartSync</span>
-          </div>
-          <nav className="ml-6 hidden md:flex gap-6">
-            <Link href="/dashboard" className="text-sm font-medium text-muted-foreground">
-              Dashboard
-            </Link>
-            <Link href="/dashboard/timeline" className="text-sm font-medium text-muted-foreground">
-              Timeline
-            </Link>
-            <Link href="/dashboard/chat" className="text-sm font-medium text-muted-foreground">
-              Chat
-            </Link>
-            <Link href="/dashboard/quests" className="text-sm font-medium text-primary">
-              Love Quests
-            </Link>
-          </nav>
-          <div className="ml-auto flex items-center gap-4">
-            <Avatar>
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1 py-6">
-        <div className="container">
+    <>
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold">Love Quests</h1>
@@ -282,8 +250,6 @@ export default function QuestsPage() {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
-      </main>
-    </div>
+    </>
   )
 }

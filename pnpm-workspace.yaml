@@ -1,0 +1,7 @@
+# pnpm settings — pnpm 10+ reads these from pnpm-workspace.yaml (not package.json).
+# Allow exactly these packages to run their postinstall scripts; everything else
+# stays blocked by pnpm's supply-chain guard.
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - protobufjs
+  - sharp
