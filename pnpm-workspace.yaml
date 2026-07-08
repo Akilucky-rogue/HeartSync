@@ -1,7 +1,16 @@
 # pnpm settings — pnpm 10+ reads these from pnpm-workspace.yaml (not package.json).
+
 # Allow exactly these packages to run their postinstall scripts; everything else
 # stays blocked by pnpm's supply-chain guard.
 onlyBuiltDependencies:
   - '@firebase/util'
   - protobufjs
   - sharp
+
+# Supply-chain policy: require packages to be at least 24h old before install,
+# except the browserslist data packages, which publish near-daily and contain
+# only compatibility data (the standard exclusions for this policy).
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - caniuse-lite
+  - electron-to-chromium
