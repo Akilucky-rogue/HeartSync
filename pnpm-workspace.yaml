@@ -1,15 +1,19 @@
 # pnpm settings — pnpm 10+ reads these from pnpm-workspace.yaml (not package.json).
 
-# Allow exactly these packages to run their postinstall scripts; everything else
-# stays blocked by pnpm's supply-chain guard.
+# Supply-chain guard: only these packages may run postinstall scripts.
 onlyBuiltDependencies:
   - '@firebase/util'
   - protobufjs
+
+# sharp's build is intentionally skipped: this app sets images.unoptimized in
+# next.config.mjs (sharp is never used), and sharp 0.33 ships prebuilt platform
+# binaries (@img/sharp-*) anyway. Listing it here silences the hard error
+# without letting it run scripts.
+ignoredBuiltDependencies:
   - sharp
 
-# Supply-chain policy: require packages to be at least 24h old before install,
-# except the browserslist data packages, which publish near-daily and contain
-# only compatibility data (the standard exclusions for this policy).
+# Require packages to be at least 24h old before install, except the
+# browserslist data packages, which publish near-daily (compatibility data only).
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - caniuse-lite
