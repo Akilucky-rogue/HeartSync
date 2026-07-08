@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center">
           <div className="flex items-center gap-2 font-bold">
@@ -51,12 +51,12 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative h-[350px] w-[350px] sm:h-[450px] sm:w-[450px]">
-                  <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-100 sm:h-[400px] sm:w-[400px]"></div>
+                <div className="relative h-[280px] w-[280px] sm:h-[450px] sm:w-[450px]">
+                  <div className="absolute left-1/2 top-1/2 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-100 sm:h-[400px] sm:w-[400px]"></div>
                   <img
                     src="/placeholder.svg?height=500&width=500"
                     alt="App Preview"
-                    className="absolute left-1/2 top-1/2 h-[320px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-xl shadow-lg sm:h-[420px] sm:w-[230px]"
+                    className="absolute left-1/2 top-1/2 h-[250px] w-[140px] -translate-x-1/2 -translate-y-1/2 rounded-xl shadow-lg sm:h-[420px] sm:w-[230px]"
                   />
                 </div>
               </div>
@@ -167,7 +167,7 @@ export default function Home() {
         <div className="container flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
           <div className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-rose-500" />
-            <p className="text-sm text-muted-foreground">© 2025 HeartSync. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© 2026 HeartSync. All rights reserved.</p>
           </div>
           <div className="flex gap-4">
             <Link href="/privacy" className="text-sm text-muted-foreground hover:underline">

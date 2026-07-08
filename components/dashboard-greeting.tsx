@@ -14,7 +14,7 @@ export function DashboardGreeting() {
   const partnerName = partnerUid ? (couple?.memberNames?.[partnerUid] ?? "your partner") : null
 
   return (
-    <div className="flex items-center justify-between mb-6">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
       <div>
         <h1 className="text-3xl font-bold">Welcome back, {firstName}</h1>
         <p className="text-muted-foreground mt-1">

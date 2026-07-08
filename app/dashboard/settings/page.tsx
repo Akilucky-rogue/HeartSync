@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ChevronLeft, User, Bell, Lock, Palette, Globe, LogOut } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { SettingsIdentityCard } from "@/components/settings-identity-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -30,58 +30,7 @@ export default function SettingsPage() {
 
           <div className="flex flex-col md:flex-row gap-6">
             <div className="md:w-1/4">
-              <Card>
-                <CardContent className="p-4">
-                  <div className="flex flex-col items-center py-4">
-                    <Avatar className="h-24 w-24 mb-4">
-                      <AvatarImage src="/placeholder.svg?height=96&width=96" alt="User" />
-                      <AvatarFallback className="text-2xl">JD</AvatarFallback>
-                    </Avatar>
-                    <h2 className="text-xl font-bold">Jamie Doe</h2>
-                    <p className="text-sm text-muted-foreground">jamie.doe@example.com</p>
-                    <Button variant="outline" size="sm" className="mt-4">
-                      Edit Profile
-                    </Button>
-                  </div>
-                  <Separator className="my-4" />
-                  <nav className="flex flex-col space-y-1">
-                    <Button variant="ghost" className="justify-start" asChild>
-                      <Link href="#account" className="flex items-center">
-                        <User className="mr-2 h-4 w-4" />
-                        Account
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                      <Link href="#notifications" className="flex items-center">
-                        <Bell className="mr-2 h-4 w-4" />
-                        Notifications
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                      <Link href="#privacy" className="flex items-center">
-                        <Lock className="mr-2 h-4 w-4" />
-                        Privacy & Security
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                      <Link href="#appearance" className="flex items-center">
-                        <Palette className="mr-2 h-4 w-4" />
-                        Appearance
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                      <Link href="#language" className="flex items-center">
-                        <Globe className="mr-2 h-4 w-4" />
-                        Language
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start text-red-500 hover:text-red-600 hover:bg-red-100">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Sign Out
-                    </Button>
-                  </nav>
-                </CardContent>
-              </Card>
+              <SettingsIdentityCard />
             </div>
 
             <div className="md:w-3/4">
@@ -92,7 +41,7 @@ export default function SettingsPage() {
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="account">
-                    <TabsList className="grid w-full grid-cols-5">
+                    <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-5">
                       <TabsTrigger value="account">Account</TabsTrigger>
                       <TabsTrigger value="notifications">Notifications</TabsTrigger>
                       <TabsTrigger value="privacy">Privacy</TabsTrigger>
@@ -112,21 +61,16 @@ export default function SettingsPage() {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor="first-name">First name</Label>
-                              <Input id="first-name" placeholder="Jamie" defaultValue="Jamie" />
+                              <Input id="first-name" placeholder="First name" />
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor="last-name">Last name</Label>
-                              <Input id="last-name" placeholder="Doe" defaultValue="Doe" />
+                              <Input id="last-name" placeholder="Last name" />
                             </div>
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              placeholder="jamie.doe@example.com"
-                              defaultValue="jamie.doe@example.com"
-                            />
+                            <Input id="email" type="email" placeholder="you@example.com" />
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="phone">Phone number</Label>
@@ -138,7 +82,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Save Changes</Button>
+                          <Button disabled title="Settings sync arrives in a coming update">Save Changes</Button>
                         </div>
 
                         <Separator />
@@ -150,20 +94,15 @@ export default function SettingsPage() {
                         <div className="grid gap-4 py-4">
                           <div className="space-y-2">
                             <Label htmlFor="partner-email">Partner's Email</Label>
-                            <Input
-                              id="partner-email"
-                              type="email"
-                              placeholder="alex@example.com"
-                              defaultValue="alex@example.com"
-                            />
+                            <Input id="partner-email" type="email" placeholder="partner@example.com" />
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="anniversary">Anniversary Date</Label>
-                            <Input id="anniversary" type="date" defaultValue="2023-09-03" />
+                            <Input id="anniversary" type="date" />
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Save Changes</Button>
+                          <Button disabled title="Settings sync arrives in a coming update">Save Changes</Button>
                         </div>
 
                         <Separator />
@@ -189,7 +128,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Update Password</Button>
+                          <Button disabled title="Password change arrives in a coming update">Update Password</Button>
                         </div>
                       </div>
                     </TabsContent>
@@ -248,7 +187,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Save Preferences</Button>
+                          <Button disabled title="Settings sync arrives in a coming update">Save Preferences</Button>
                         </div>
                       </div>
                     </TabsContent>
@@ -381,7 +320,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Save Preferences</Button>
+                          <Button disabled title="Settings sync arrives in a coming update">Save Preferences</Button>
                         </div>
                       </div>
                     </TabsContent>
@@ -454,7 +393,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <div className="flex justify-end">
-                          <Button>Save Preferences</Button>
+                          <Button disabled title="Settings sync arrives in a coming update">Save Preferences</Button>
                         </div>
                       </div>
                     </TabsContent>

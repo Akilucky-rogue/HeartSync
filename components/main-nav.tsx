@@ -55,13 +55,13 @@ export function MainNav() {
           HeartSync
         </Link>
       </div>
-      <nav className="ml-6 hidden md:flex gap-6">
+      <nav className="ml-6 hidden lg:flex lg:gap-5 xl:gap-6">
         {navItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
+              "whitespace-nowrap text-sm font-medium transition-colors hover:text-primary",
               pathname === item.href ? "text-primary" : "text-muted-foreground",
             )}
           >

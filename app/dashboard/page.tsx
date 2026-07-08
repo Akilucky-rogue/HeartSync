@@ -13,8 +13,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Progress } from "@/components/ui/progress"
+import { EmptyState } from "@/components/empty-state"
 import { FeatureCard } from "@/components/feature-card"
 import { DashboardGreeting } from "@/components/dashboard-greeting"
 import { PairBanner } from "@/components/pair-banner"
@@ -38,31 +37,11 @@ export default function DashboardPage() {
             <CardDescription>Special moments to look forward to</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
-                  <Calendar className="h-6 w-6 text-rose-500" />
-                </div>
-                <div className="space-y-1">
-                  <p className="font-medium">Anniversary</p>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">In 23 days</p>
-                    <Progress value={70} className="h-2 w-20" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                  <Gift className="h-6 w-6 text-blue-500" />
-                </div>
-                <div className="space-y-1">
-                  <p className="font-medium">Alex's Birthday</p>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">In 5 days</p>
-                    <Progress value={90} className="h-2 w-20" />
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-col items-center py-6 text-center">
+              <Calendar className="mb-3 h-8 w-8 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">
+                No events yet. Anniversaries and special dates you add will count down here.
+              </p>
             </div>
           </CardContent>
           <CardFooter>
@@ -120,29 +99,11 @@ export default function DashboardPage() {
             <CardDescription>Stay connected with your partner</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start gap-4">
-                <Avatar>
-                  <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Partner" />
-                  <AvatarFallback>AL</AvatarFallback>
-                </Avatar>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Alex</p>
-                  <p className="text-sm text-muted-foreground">Can't wait to see you tonight! ❤️</p>
-                  <p className="text-xs text-muted-foreground">10 minutes ago</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Avatar>
-                  <AvatarImage src="/placeholder.svg?height=40&width=40" alt="You" />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">You</p>
-                  <p className="text-sm text-muted-foreground">Me too! I'm leaving work early today.</p>
-                  <p className="text-xs text-muted-foreground">5 minutes ago</p>
-                </div>
-              </div>
+            <div className="flex flex-col items-center py-6 text-center">
+              <MessageSquare className="mb-3 h-8 w-8 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">
+                No messages yet. Your private conversation will preview here.
+              </p>
             </div>
           </CardContent>
           <CardFooter>
@@ -166,60 +127,11 @@ export default function DashboardPage() {
             </Link>
           </Button>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="space-y-2">
-            <div className="overflow-hidden rounded-md">
-              <img
-                src="/placeholder.svg?height=200&width=200"
-                alt="Memory"
-                className="aspect-square h-auto w-full object-cover transition-all hover:scale-105"
-              />
-            </div>
-            <p className="text-sm font-medium">Beach Day</p>
-            <p className="text-xs text-muted-foreground">2 days ago</p>
-          </div>
-          <div className="space-y-2">
-            <div className="overflow-hidden rounded-md">
-              <img
-                src="/placeholder.svg?height=200&width=200"
-                alt="Memory"
-                className="aspect-square h-auto w-full object-cover transition-all hover:scale-105"
-              />
-            </div>
-            <p className="text-sm font-medium">Dinner Date</p>
-            <p className="text-xs text-muted-foreground">1 week ago</p>
-          </div>
-          <div className="space-y-2">
-            <div className="overflow-hidden rounded-md">
-              <img
-                src="/placeholder.svg?height=200&width=200"
-                alt="Memory"
-                className="aspect-square h-auto w-full object-cover transition-all hover:scale-105"
-              />
-            </div>
-            <p className="text-sm font-medium">Hiking Trip</p>
-            <p className="text-xs text-muted-foreground">2 weeks ago</p>
-          </div>
-          <div className="space-y-2">
-            <div className="overflow-hidden rounded-md">
-              <img
-                src="/placeholder.svg?height=200&width=200"
-                alt="Memory"
-                className="aspect-square h-auto w-full object-cover transition-all hover:scale-105"
-              />
-            </div>
-            <p className="text-sm font-medium">Movie Night</p>
-            <p className="text-xs text-muted-foreground">3 weeks ago</p>
-          </div>
-        </div>
-        <div className="flex justify-center mt-4">
-          <Button variant="outline" asChild>
-            <Link href="/dashboard/timeline">
-              View All Memories
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          icon={Image}
+          title="No memories yet"
+          description="Photos and moments you save will appear here — your recent highlights at a glance."
+        />
       </div>
 
       <div>

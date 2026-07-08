@@ -1,149 +1,84 @@
-import type { Metadata } from "next"
+"use client"
+
 import Link from "next/link"
-import { Send, Image, Smile, Paperclip, ChevronLeft } from "lucide-react"
+import { ChevronLeft, MessageSquare, Send, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-
-export const metadata: Metadata = {
-  title: "Chat | HeartSync",
-  description: "Private couple's chat",
-}
+import { useAuth } from "@/context/auth-context"
 
 export default function ChatPage() {
+  const { user, couple, coupleLoading } = useAuth()
+
+  const partnerUid = couple && user ? couple.members.find((uid) => uid !== user.uid) : undefined
+  const partnerName = partnerUid ? (couple?.memberNames?.[partnerUid] ?? "Partner") : null
+
   return (
-    <div className="flex h-[calc(100vh-8.5rem)] flex-col overflow-hidden rounded-lg border bg-background">
-        <div className="border-b bg-background p-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard">
-                <ChevronLeft className="h-5 w-5" />
+    <div className="flex h-[calc(100dvh-8.5rem)] min-h-[420px] flex-col overflow-hidden rounded-lg border bg-background">
+      <div className="border-b bg-background p-4">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/dashboard">
+              <ChevronLeft className="h-5 w-5" />
+            </Link>
+          </Button>
+          {partnerName ? (
+            <>
+              <Avatar>
+                <AvatarImage src="/placeholder.svg?height=40&width=40" alt={partnerName} />
+                <AvatarFallback>{partnerName.charAt(0).toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <div>
+                <h2 className="font-medium">{partnerName}</h2>
+              </div>
+            </>
+          ) : (
+            <h2 className="font-medium">Chat</h2>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
+        {coupleLoading ? (
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        ) : partnerName ? (
+          <>
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
+              <MessageSquare className="h-6 w-6 text-rose-500" />
+            </div>
+            <h3 className="font-medium">No messages yet</h3>
+            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+              Your private conversation with {partnerName} will live here. Real-time messaging arrives in
+              a coming update.
+            </p>
+          </>
+        ) : (
+          <>
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100">
+              <UserPlus className="h-6 w-6 text-rose-500" />
+            </div>
+            <h3 className="font-medium">No partner linked yet</h3>
+            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+              Chat is a private space for the two of you — link with your partner to open it up.
+            </p>
+            <Button className="mt-4 bg-rose-500 hover:bg-rose-600" asChild>
+              <Link href="/pair">
+                <UserPlus className="mr-2 h-4 w-4" />
+                Invite your partner
               </Link>
             </Button>
-            <Avatar>
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Partner" />
-              <AvatarFallback>AL</AvatarFallback>
-            </Avatar>
-            <div>
-              <h2 className="font-medium">Alex</h2>
-              <p className="text-xs text-muted-foreground">Online now</p>
-            </div>
-          </div>
+          </>
+        )}
+      </div>
+
+      <div className="border-t bg-background p-4">
+        <div className="flex items-center gap-2">
+          <Input placeholder="Type a message..." className="flex-1" disabled />
+          <Button size="icon" className="bg-rose-500 hover:bg-rose-600" disabled title="Messaging arrives in a coming update">
+            <Send className="h-4 w-4" />
+          </Button>
         </div>
-
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-4">
-            <div className="flex items-start gap-3 max-w-[80%]">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Partner" />
-                <AvatarFallback>AL</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-muted p-3">
-                  <p className="text-sm">Good morning! How did you sleep?</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">8:30 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%] ml-auto flex-row-reverse">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="You" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-rose-100 p-3">
-                  <p className="text-sm">Good morning! I slept really well, thanks for asking. How about you?</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1 text-right">8:32 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%]">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Partner" />
-                <AvatarFallback>AL</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-muted p-3">
-                  <p className="text-sm">Not too bad! I'm excited for our dinner plans tonight.</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">8:35 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%]">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Partner" />
-                <AvatarFallback>AL</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-muted p-3">
-                  <p className="text-sm">I made a reservation at that new Italian place you wanted to try.</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">8:36 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%] ml-auto flex-row-reverse">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="You" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-rose-100 p-3">
-                  <p className="text-sm">That's amazing! I can't wait. What time is the reservation?</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1 text-right">8:40 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%]">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Partner" />
-                <AvatarFallback>AL</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-muted p-3">
-                  <p className="text-sm">7:30 PM. I'll pick you up from work?</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">8:42 AM</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 max-w-[80%] ml-auto flex-row-reverse">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="You" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="rounded-lg bg-rose-100 p-3">
-                  <p className="text-sm">Perfect! I'll be ready. Can't wait to see you! ❤️</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1 text-right">8:45 AM</p>
-              </div>
-            </div>
-          </div>
-        </ScrollArea>
-
-        <div className="border-t bg-background p-4">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
-              <Paperclip className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Image className="h-5 w-5" />
-            </Button>
-            <Input placeholder="Type a message..." className="flex-1" />
-            <Button variant="ghost" size="icon">
-              <Smile className="h-5 w-5" />
-            </Button>
-            <Button size="icon" className="bg-rose-500 hover:bg-rose-600">
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+      </div>
     </div>
   )
 }
